@@ -1,2 +1,3 @@
-# ap-template-basic
-Basic template - HTML, CSS + Javascript. No webpack
+# The Odin Project - Battleship
+
+Project practicing TDD to make a battleship game.
