@@ -5,6 +5,8 @@ class GameBoard {
 		this.grid = Array.from({ length: 10 }, () =>
 			Array.from({ length: 10 }, () => ({ ship: null, isHit: false }))
 		);
+
+		this.missedAttacks = [];
 	}
 
 	placeShip(ship, x, y, orientation) {
@@ -21,12 +23,12 @@ class GameBoard {
 
 		for (let i = 0; i < ship.length; i++) {
 			if (orientation === "horizontal" && this.grid[x + i][y].ship) {
-			  throw new Error("Ships overlap");
+				throw new Error("Ships overlap");
 			}
 			if (orientation === "vertical" && this.grid[x][y + i].ship) {
-			  throw new Error("Ships overlap");
+				throw new Error("Ships overlap");
 			}
-		  }
+		}
 
 		if (orientation === "horizontal") {
 			for (let i = 0; i < ship.length; i++) {
@@ -40,13 +42,18 @@ class GameBoard {
 	}
 
 	receiveAttack(x, y) {
-		if (this.grid[x][y].ship) {
-			this.grid[x][y].ship.hit();
-			this.grid[x][y].isHit = true;
+		const cell = this.grid[x][y];
+		
+		if (cell.isHit) {
+			return;
 		}
 
-		if (!this.grid[x][y].ship) {
-			this.grid[x][y].isHit = true;
+		cell.isHit = true;
+
+		if (cell.ship) {
+			cell.ship.hit();
+		} else {
+			this.missedAttacks.push({ x, y });
 		}
 	}
 }
