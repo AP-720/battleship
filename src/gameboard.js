@@ -1,58 +1,87 @@
-// gameboard.js
+// Define constants for ship placement directions
+const DIRECTIONS = {
+	HORIZONTAL: "horizontal", 
+	VERTICAL: "vertical", 
+};
 
 class GameBoard {
 	constructor() {
+		// Initialize a 10x10 grid where each cell is an object with:
 		this.grid = Array.from({ length: 10 }, () =>
 			Array.from({ length: 10 }, () => ({ ship: null, isHit: false }))
 		);
 
+		// Initialize an array to track coordinates of missed attacks
 		this.missedAttacks = [];
 	}
 
 	placeShip(ship, x, y, orientation) {
-		// Bounds check
-		if (x + ship.length > 10 && orientation === "horizontal") {
+		// Check if the ship placement is out of bounds
+		if (this.isOutOfBounds(x, y, ship.length, orientation)) {
 			throw new Error("Ship placement out of bounds");
 		}
 
-		if (y + ship.length > 10 && orientation === "vertical") {
-			throw new Error("Ship placement out of bounds");
+		// Check if the ship placement overlaps with another ship
+		if (this.hasOverlap(x, y, ship.length, orientation)) {
+			throw new Error("Ships overlap");
 		}
 
-		// Overlap check
-
-		for (let i = 0; i < ship.length; i++) {
-			if (orientation === "horizontal" && this.grid[x + i][y].ship) {
-				throw new Error("Ships overlap");
-			}
-			if (orientation === "vertical" && this.grid[x][y + i].ship) {
-				throw new Error("Ships overlap");
-			}
-		}
-
-		if (orientation === "horizontal") {
+		// Place the ship on the grid based on the specified orientation
+		if (orientation === DIRECTIONS.HORIZONTAL) {
 			for (let i = 0; i < ship.length; i++) {
-				this.grid[x + i][y].ship = ship;
+				this.grid[x + i][y].ship = ship; // Place ship horizontally
 			}
-		} else if (orientation === "vertical") {
+		} else if (orientation === DIRECTIONS.VERTICAL) {
 			for (let i = 0; i < ship.length; i++) {
-				this.grid[x][y + i].ship = ship;
+				this.grid[x][y + i].ship = ship; // Place ship vertically
 			}
 		}
 	}
 
+	// Helper method to check if a ship placement is out of bounds
+	isOutOfBounds(x, y, shipLength, orientation) {
+		// Check if the ship extends beyond the grid horizontally
+		if (orientation === DIRECTIONS.HORIZONTAL && x + shipLength > 10) {
+			return true;
+		}
+		// Check if the ship extends beyond the grid vertically
+		if (orientation === DIRECTIONS.VERTICAL && y + shipLength > 10) {
+			return true;
+		}
+		return false; // Ship placement is within bounds
+	}
+
+	// Helper method to check if a ship placement overlaps with another ship
+	hasOverlap(x, y, shipLength, orientation) {
+		for (let i = 0; i < shipLength; i++) {
+			// Check for overlap in horizontal placement
+			if (orientation === DIRECTIONS.HORIZONTAL && this.grid[x + i][y].ship) {
+				return true;
+			}
+			// Check for overlap in vertical placement
+			if (orientation === DIRECTIONS.VERTICAL && this.grid[x][y + i].ship) {
+				return true;
+			}
+		}
+		return false; // No overlap detected
+	}
+
+	// Method to handle an attack on a specific cell
 	receiveAttack(x, y) {
-		const cell = this.grid[x][y];
-		
+		const cell = this.grid[x][y]; // Get the target cell
+
+		// If the cell has already been attacked, ignore the attack
 		if (cell.isHit) {
 			return;
 		}
 
-		cell.isHit = true;
+		cell.isHit = true; // Mark the cell as hit
 
+		// If the cell contains a ship, register a hit on the ship
 		if (cell.ship) {
 			cell.ship.hit();
 		} else {
+			// If the cell does not contain a ship, record the miss
 			this.missedAttacks.push({ x, y });
 		}
 	}
