@@ -98,4 +98,38 @@ describe("GameBoard", () => {
 
 		expect(gameBoard.missedAttacks.length).toBe(1);
 	});
+
+	it("Reports all ships sunk when all are destroyed", () => {
+		gameBoard.placeShip(ship, 2, 3, "horizontal");
+		gameBoard.receiveAttack(2, 3);
+		gameBoard.receiveAttack(3, 3);
+		gameBoard.receiveAttack(4, 3);
+
+		expect(gameBoard.allShipsSunk()).toBe(true);
+	});
+
+	it("Reports not all ships sunk when at one is still afloat", () => {
+		gameBoard.placeShip(ship, 2, 3, "horizontal");
+		gameBoard.receiveAttack(2, 3);
+		gameBoard.receiveAttack(3, 3);
+
+		expect(gameBoard.allShipsSunk()).toBe(false);
+	});
+
+	it("Reports not all ships sunk when at least one of many is still afloat", () => {
+		const ship2 = new Ship(3);
+
+		gameBoard.placeShip(ship, 2, 3, "horizontal");
+		gameBoard.placeShip(ship2, 0, 5, "horizontal");
+
+		gameBoard.receiveAttack(2, 3);
+		gameBoard.receiveAttack(3, 3);
+		gameBoard.receiveAttack(4, 3);
+
+		expect(gameBoard.allShipsSunk()).toBe(false);
+	});
+
+	it("Reports all ships sunk when there are no ships on the board", () => {
+		expect(gameBoard.allShipsSunk()).toBe(true);
+	});
 });

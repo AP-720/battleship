@@ -1,7 +1,7 @@
 // Define constants for ship placement directions
 const DIRECTIONS = {
-	HORIZONTAL: "horizontal", 
-	VERTICAL: "vertical", 
+	HORIZONTAL: "horizontal",
+	VERTICAL: "vertical",
 };
 
 class GameBoard {
@@ -84,6 +84,25 @@ class GameBoard {
 			// If the cell does not contain a ship, record the miss
 			this.missedAttacks.push({ x, y });
 		}
+	}
+
+	allShipsSunk() {
+		// Iterate through each row (i) of the game grid
+		for (let i = 0; i < this.grid.length; i++) {
+			// Iterate through each column (j) in the current row
+			for (let j = 0; j < this.grid[i].length; j++) {
+				// Check if current cell contains a ship
+				if (this.grid[i][j].ship) {
+					// If ship exists in cell, check if it's NOT sunk
+					if (!this.grid[i][j].ship.sunk) {
+						// Early exit: Found at least one un-sunk ship
+						return false;
+					}
+				}
+			}
+		}
+		// All ships in all cells have been sunk
+		return true;
 	}
 }
 
