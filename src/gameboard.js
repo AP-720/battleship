@@ -87,21 +87,28 @@ class GameBoard {
 	}
 
 	allShipsSunk() {
-		// Iterate through each row (i) of the game grid
-		for (let i = 0; i < this.grid.length; i++) {
-			// Iterate through each column (j) in the current row
-			for (let j = 0; j < this.grid[i].length; j++) {
-				// Check if current cell contains a ship
-				if (this.grid[i][j].ship) {
-					// If ship exists in cell, check if it's NOT sunk
-					if (!this.grid[i][j].ship.sunk) {
-						// Early exit: Found at least one un-sunk ship
-						return false;
+		// Create a Set to track unique ships we've already checked
+		const checkedShips = new Set();
+
+		for (const row of this.grid) {
+			for (const cell of row) {
+				// Only process cells that contain a ship
+				if (cell.ship) {
+					// Check if we've already processed this ship instance
+					if (!checkedShips.has(cell.ship)) {
+						// Add to tracked ships - Set automatically handles uniqueness
+						checkedShips.add(cell.ship);
+
+						// Check if this ship is NOT sunk using its isSunk() method
+						if (!cell.ship.isSunk()) {
+							// Early exit: Found at least one un-sunk ship
+							return false;
+						}
 					}
 				}
 			}
 		}
-		// All ships in all cells have been sunk
+		// All unique ships have been checked and confirmed sunk
 		return true;
 	}
 }
