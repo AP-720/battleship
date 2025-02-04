@@ -1,7 +1,7 @@
 // gameboard.test.js
 
-const GameBoard = require("../src/gameboard");
-const Ship = require("../src/ship");
+const GameBoard = require("../src/game/GameBoard.js");
+const Ship = require("../src/game/Ship.js");
 
 describe("GameBoard", () => {
 	let gameBoard;

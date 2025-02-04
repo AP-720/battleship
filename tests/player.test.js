@@ -1,7 +1,7 @@
 //  player.test.js
 
-const { Player, ComputerPlayer } = require("../src/player.js");
-const GameBoard = require("../src/gameboard");
+const { Player, ComputerPlayer } = require("../src/game/Player.js");
+const GameBoard = require("../src/game/GameBoard.js");
 
 describe("Player", () => {
 	let player1;
@@ -20,7 +20,7 @@ describe("Player", () => {
 	it("Initialize ComputerPlayer with correct properties", () => {
 		expect(computer.name).toBe("Computer");
 		expect(computer.gameBoard).toBeInstanceOf(GameBoard);
-        expect(computer).toBeInstanceOf(Player)
+		expect(computer).toBeInstanceOf(Player);
 	});
 
 	it("It should always initialize with the name 'Computer', even when a different name is provided.", () => {

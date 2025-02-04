@@ -1,6 +1,6 @@
 // player.js
 
-const GameBoard = require("../src/gameboard");
+const GameBoard = require("./GameBoard.js");
 
 class Player {
 	constructor(name) {
@@ -10,9 +10,9 @@ class Player {
 }
 
 class ComputerPlayer extends Player {
-    constructor(){
-        super("Computer")
-    }
+	constructor() {
+		super("Computer");
+	}
 }
 
 module.exports = { Player, ComputerPlayer };
