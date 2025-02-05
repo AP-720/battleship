@@ -4,12 +4,32 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Battleships</title>
-
+		<link
+			href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap"
+			rel="stylesheet"
+		/>
 		<link rel="stylesheet" href="./css/reset.css" />
 		<link rel="stylesheet" href="./css/styles.css" />
 		<script src="./src/index.js" defer></script>
 	</head>
 	<body>
-		
+		<h1 class="title">Battleship</h1>
+		<div class="name-input">
+			<input
+				type="text"
+				name="playerName"
+				id="playerName"
+				placeholder="Enter Name"
+			/>
+			<button type="button">Enter</button>
+		</div>
+
+		<p class="messages" data-messages>Player 1 turn</p>
+
+		<div class="gameboard-container" data-gameBoard-container>
+			<div data-players-board class="gameboard"></div>
+			<button type="button" class="place-ships">Place Ships</button>
+			<div data-computers-board class="gameboard"></div>
+		</div>
 	</body>
 </html>
