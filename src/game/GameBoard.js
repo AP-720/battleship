@@ -1,10 +1,12 @@
+// GameBoard.js
+
 // Define constants for ship placement directions
 const DIRECTIONS = {
 	HORIZONTAL: "horizontal",
 	VERTICAL: "vertical",
 };
 
-class GameBoard {
+export class GameBoard {
 	constructor() {
 		// Initialize a 10x10 grid where each cell is an object with:
 		this.grid = Array.from({ length: 10 }, () =>
@@ -113,4 +115,4 @@ class GameBoard {
 	}
 }
 
-module.exports = GameBoard;
+// module.exports = GameBoard;

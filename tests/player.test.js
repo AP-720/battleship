@@ -1,7 +1,7 @@
 //  player.test.js
 
-const { Player, ComputerPlayer } = require("../src/game/Player.js");
-const GameBoard = require("../src/game/GameBoard.js");
+import { Player, ComputerPlayer } from "../src/game/Player.js";
+import { GameBoard } from "../src/game/GameBoard.js";
 
 describe("Player", () => {
 	let player1;

@@ -1,6 +1,6 @@
 // ship.test.js
 
-const Ship = require("../src/game/Ship.js");
+import { Ship } from "../src/game/Ship.js";
 
 describe("Ship", () => {
 	let ship;

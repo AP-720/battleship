@@ -1,6 +1,6 @@
 // ship.js
 
-class Ship {
+export class Ship {
 	constructor(length) {
 		this.length = length;
 		this.hits = 0;
@@ -22,4 +22,4 @@ class Ship {
 	}
 }
 
-module.exports = Ship;
+// module.exports = Ship;

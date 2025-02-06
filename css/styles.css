@@ -91,7 +91,7 @@ button:active {
 }
 
 .cell {
-	border: 1px #2b4162 solid;
+	border: 1px oklch(90% 0.0635 258.28) solid;
 	background-color: oklch(95% 0.01667 250.85);
 	cursor: pointer;
 }

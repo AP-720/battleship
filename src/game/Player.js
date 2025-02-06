@@ -1,18 +1,18 @@
 // player.js
 
-const GameBoard = require("./GameBoard.js");
+import { GameBoard } from "./GameBoard.js";
 
-class Player {
+export class Player {
 	constructor(name) {
 		this.name = name;
 		this.gameBoard = new GameBoard();
 	}
 }
 
-class ComputerPlayer extends Player {
+export class ComputerPlayer extends Player {
 	constructor() {
 		super("Computer");
 	}
 }
 
-module.exports = { Player, ComputerPlayer };
+// module.exports = { Player, ComputerPlayer };
