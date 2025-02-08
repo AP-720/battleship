@@ -83,7 +83,7 @@ button:active {
 	border: 1px #2b4162 solid;
 	min-width: 30em;
 	height: 30em;
-	background-color: oklch(95% 0.01667 250.85);
+	background-color: oklch(94% 0.01667 250.85);
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);
 	grid-template-rows: repeat(10, 1fr);
@@ -91,19 +91,32 @@ button:active {
 }
 
 .cell {
+	position: relative;
 	border: 1px oklch(90% 0.0635 258.28) solid;
-	background-color: oklch(95% 0.01667 250.85);
+	/* background-color: oklch(95% 0.01667 250.85); */
 	cursor: pointer;
-}
-
-.cell.hit {
-	background-color: oklch(0.645 0.246 16.439);
-}
-
-.cell.miss {
-	background-color: oklch(0.985 0 0);
+	aspect-ratio: 1; /* Ensure cells are square */
 }
 
 .cell.ship {
 	background-color: oklch(0.707 0.022 261.325);
+}
+
+.marker {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 75%; /* Relative to cell size */
+	height: 75%; /* Relative to cell size */
+	border-radius: 50%; /* Makes it a circle */
+	background-color: transparent; /* Default state */
+  }
+
+.marker.hit {
+	background-color: oklch(64.42% 0.2176 26.92);
+}
+
+.marker.miss {
+	background-color: oklch(1 0 0);
 }

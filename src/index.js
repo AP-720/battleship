@@ -22,5 +22,14 @@ const renderComputersBoard = new BoardRenderer(
 	computersBoardElement
 );
 
+const ship = new Ship(3);
+
 renderPlayersBoard.render();
 renderComputersBoard.render();
+
+playerBoard.placeShip(ship, 0, 0, "horizontal");
+playerBoard.receiveAttack(0,0)
+playerBoard.receiveAttack(1,0)
+// playerBoard.placeShip(ship, 3, 4, "vertical");
+
+renderPlayersBoard.render();

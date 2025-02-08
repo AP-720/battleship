@@ -23,16 +23,16 @@ describe("GameBoard", () => {
 		gameBoard.placeShip(ship, 2, 3, "horizontal");
 
 		expect(gameBoard.grid[2][3].ship).toBe(ship);
-		expect(gameBoard.grid[3][3].ship).toBe(ship);
-		expect(gameBoard.grid[4][3].ship).toBe(ship);
+		expect(gameBoard.grid[2][4].ship).toBe(ship);
+		expect(gameBoard.grid[2][5].ship).toBe(ship);
 	});
 
 	it("Place a ship vertically at valid coordinates", () => {
 		gameBoard.placeShip(ship, 2, 3, "vertical");
 
 		expect(gameBoard.grid[2][3].ship).toBe(ship);
-		expect(gameBoard.grid[2][4].ship).toBe(ship);
-		expect(gameBoard.grid[2][5].ship).toBe(ship);
+		expect(gameBoard.grid[3][3].ship).toBe(ship);
+		expect(gameBoard.grid[4][3].ship).toBe(ship);
 	});
 
 	it("Throw error when placing ship out of bounds horizontally", () => {
@@ -50,7 +50,7 @@ describe("GameBoard", () => {
 	it("Throw error when placing ship overlaps another ship", () => {
 		gameBoard.placeShip(ship, 2, 3, "horizontal");
 
-		expect(() => gameBoard.placeShip(ship, 3, 2, "vertical")).toThrow(
+		expect(() => gameBoard.placeShip(ship, 1, 4, "vertical")).toThrow(
 			"Ships overlap"
 		);
 	});
@@ -102,8 +102,8 @@ describe("GameBoard", () => {
 	it("Reports all ships sunk when all are destroyed", () => {
 		gameBoard.placeShip(ship, 2, 3, "horizontal");
 		gameBoard.receiveAttack(2, 3);
-		gameBoard.receiveAttack(3, 3);
-		gameBoard.receiveAttack(4, 3);
+		gameBoard.receiveAttack(2, 4);
+		gameBoard.receiveAttack(2, 5);
 
 		expect(gameBoard.allShipsSunk()).toBe(true);
 	});

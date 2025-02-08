@@ -31,11 +31,11 @@ export class GameBoard {
 		// Place the ship on the grid based on the specified orientation
 		if (orientation === DIRECTIONS.HORIZONTAL) {
 			for (let i = 0; i < ship.length; i++) {
-				this.grid[x + i][y].ship = ship; // Place ship horizontally
+				this.grid[x][y + i].ship = ship; // Place ship horizontally
 			}
 		} else if (orientation === DIRECTIONS.VERTICAL) {
 			for (let i = 0; i < ship.length; i++) {
-				this.grid[x][y + i].ship = ship; // Place ship vertically
+				this.grid[x + i][y].ship = ship; // Place ship vertically
 			}
 		}
 	}
@@ -43,11 +43,11 @@ export class GameBoard {
 	// Helper method to check if a ship placement is out of bounds
 	isOutOfBounds(x, y, shipLength, orientation) {
 		// Check if the ship extends beyond the grid horizontally
-		if (orientation === DIRECTIONS.HORIZONTAL && x + shipLength > 10) {
+		if (orientation === DIRECTIONS.HORIZONTAL && y + shipLength > 10) {
 			return true;
 		}
 		// Check if the ship extends beyond the grid vertically
-		if (orientation === DIRECTIONS.VERTICAL && y + shipLength > 10) {
+		if (orientation === DIRECTIONS.VERTICAL && x + shipLength > 10) {
 			return true;
 		}
 		return false; // Ship placement is within bounds
@@ -57,11 +57,11 @@ export class GameBoard {
 	hasOverlap(x, y, shipLength, orientation) {
 		for (let i = 0; i < shipLength; i++) {
 			// Check for overlap in horizontal placement
-			if (orientation === DIRECTIONS.HORIZONTAL && this.grid[x + i][y].ship) {
+			if (orientation === DIRECTIONS.HORIZONTAL && this.grid[x][y + i].ship) {
 				return true;
 			}
 			// Check for overlap in vertical placement
-			if (orientation === DIRECTIONS.VERTICAL && this.grid[x][y + i].ship) {
+			if (orientation === DIRECTIONS.VERTICAL && this.grid[x + i][y].ship) {
 				return true;
 			}
 		}
