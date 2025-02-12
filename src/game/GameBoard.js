@@ -89,28 +89,26 @@ export class GameBoard {
 	}
 
 	allShipsSunk() {
-		// Create a Set to track unique ships we've already checked
+		// Create a Set to track unique ships that have already been checked
 		const checkedShips = new Set();
 
 		for (const row of this.grid) {
 			for (const cell of row) {
-				// Only process cells that contain a ship
-				if (cell.ship) {
-					// Check if we've already processed this ship instance
-					if (!checkedShips.has(cell.ship)) {
-						// Add to tracked ships - Set automatically handles uniqueness
-						checkedShips.add(cell.ship);
+				// Check if the cell contains a ship and if the ship hasn't been checked yet
+				if (cell.ship && !checkedShips.has(cell.ship)) {
+					// Add the ship to the Set of checked ships to avoid redundant checks
+					checkedShips.add(cell.ship);
 
-						// Check if this ship is NOT sunk using its isSunk() method
-						if (!cell.ship.isSunk()) {
-							// Early exit: Found at least one un-sunk ship
-							return false;
-						}
+					// Check if the ship is NOT sunk using its isSunk() method
+					if (!cell.ship.isSunk()) {
+						// If any ship is not sunk, return false immediately
+						return false;
 					}
 				}
 			}
 		}
-		// All unique ships have been checked and confirmed sunk
+
+		// If all ships have been checked and are sunk, return true
 		return true;
 	}
 }
