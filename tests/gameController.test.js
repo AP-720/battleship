@@ -1,6 +1,6 @@
 // gameController.test.js
 import jest from "jest-mock";
-import { GameController } from "../src/game/GameController.js";
+import { GameController, AttackResult } from "../src/game/GameController.js";
 import { GameBoard } from "../src/game/GameBoard.js";
 import { BoardRenderer } from "../src/ui/BoardRenderer.js";
 
@@ -56,6 +56,18 @@ describe("GameController", () => {
 		gameController.handleHumanAttack(0, 0);
 		expect(spy).toHaveBeenCalledTimes(1);
 		expect(gameController.isHumanTurn).toBe(false);
+	});
+
+	it("should return INVALID when attacking the same cell twice", () => {
+		gameController.initializeGame();
+
+		// First attack (should return VALID)
+		const firstAttackResult = gameController.handleHumanAttack(0, 0);
+		expect(firstAttackResult).toBe(AttackResult.VALID); // Verify the first attack is valid
+
+		// Second attack on the same cell (should return INVALID)
+		const secondAttackResult = gameController.handleHumanAttack(0, 0);
+		expect(secondAttackResult).toBe(AttackResult.INVALID); // Verify the second attack is invalid
 	});
 
 	it("Computer can attack valid coordinate", () => {

@@ -1,6 +1,12 @@
 // GameController.js
 
-import { Ship } from "./Ship";
+import { Ship } from "./Ship.js";
+
+// Define constants for attack results to avoid magic strings
+export const AttackResult = {
+	VALID: "valid",
+	INVALID: "invalid",
+};
 
 export class GameController {
 	constructor(humanBoard, computerBoard, humanRenderer, computerRenderer) {
@@ -29,9 +35,9 @@ export class GameController {
 
 	// Handle a human player's attack on the computer's board
 	handleHumanAttack(x, y) {
-		// If the cell has already been attacked, do nothing
+		// If the cell has already been attacked, return "invalid"
 		if (this.computerBoard.grid[x][y].isHit) {
-			return;
+			return AttackResult.INVALID;
 		}
 
 		// Register the attack on the computer's board
@@ -42,6 +48,9 @@ export class GameController {
 
 		// Switch the turn to the computer
 		this.isHumanTurn = false;
+
+		// Return "valid" to indicate the attack was processed successfully
+		return AttackResult.VALID;
 	}
 
 	// Handle the computer's attack on the human's board
@@ -79,8 +88,13 @@ export class GameController {
 
 	// Handle a full turn (human attack followed by computer attack)
 	handleTurn(x, y) {
-		// Handle the human player's attack
-		this.handleHumanAttack(x, y);
+		// Attempt to handle the human player's attack
+		const attackResult = this.handleHumanAttack(x, y);
+
+		// If the attack was invalid, stop the turn
+		if (attackResult === AttackResult.INVALID) {
+			return;
+		}
 
 		// If the game is over after the human's attack, stop the turn
 		if (this.checkForWin()) {
