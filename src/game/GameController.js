@@ -9,12 +9,19 @@ export const AttackResult = {
 };
 
 export class GameController {
-	constructor(humanBoard, computerBoard, humanRenderer, computerRenderer) {
-		// Initialize the game controller with human and computer boards and renderers
+	constructor(
+		humanBoard,
+		computerBoard,
+		humanRenderer,
+		computerRenderer,
+		uiManager
+	) {
+		// Initialize the game controller with human and computer boards and renderers and UIManager
 		this.humanBoard = humanBoard;
 		this.computerBoard = computerBoard;
 		this.humanRenderer = humanRenderer;
 		this.computerRenderer = computerRenderer;
+		this.uiManager = uiManager;
 
 		// Set the initial turn to the human player
 		this.isHumanTurn = true;
@@ -93,11 +100,13 @@ export class GameController {
 
 		// If the attack was invalid, stop the turn
 		if (attackResult === AttackResult.INVALID) {
+			this.uiManager.setMessage("Invalid attack: Cell already hit");
 			return;
 		}
 
 		// If the game is over after the human's attack, stop the turn
 		if (this.checkForWin()) {
+			this.uiManager.setMessage("You win!");
 			return;
 		}
 
@@ -106,6 +115,7 @@ export class GameController {
 
 		// If the game is over after the computer's attack, stop the turn
 		if (this.checkForWin()) {
+			this.uiManager.setMessage("Computer wins! You lose.");
 			return;
 		}
 	}

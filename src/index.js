@@ -4,6 +4,7 @@ import { GameBoard } from "./game/GameBoard.js";
 import { Ship } from "./game/Ship.js";
 import { BoardRenderer } from "./ui/BoardRenderer.js";
 import { GameController } from "./game/GameController.js";
+import { UIManager } from "./ui/UIManager.js";
 
 // DOM Elements
 
@@ -17,20 +18,23 @@ const humanBoard = new GameBoard();
 const computersBoard = new GameBoard();
 
 const humanRenderer = new BoardRenderer(humanBoard, humanBoardElement);
-
 const computerRenderer = new BoardRenderer(
 	computersBoard,
 	computersBoardElement
 );
 
+const uiManager = new UIManager(gameMessages);
+
 const gameController = new GameController(
 	humanBoard,
 	computersBoard,
 	humanRenderer,
-	computerRenderer
+	computerRenderer,
+	uiManager
 );
 
 gameController.initializeGame();
-gameController.handleTurn(0,0)
-gameController.handleTurn(0,1)
-gameController.handleTurn(0,2)
+gameController.handleTurn(0, 0);
+// gameController.handleTurn(0,0)
+gameController.handleTurn(0, 1);
+gameController.handleTurn(0, 2);

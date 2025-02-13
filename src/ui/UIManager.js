@@ -5,11 +5,12 @@ export class UIManager {
 		this.messageElement = messageElement;
 	}
 
-    setMessage(content) {
-        this.messageElement.innerText = content
-    }
+	setMessage(messageContent) {
+		this.clearMessage();
+		this.messageElement.innerText = messageContent;
+	}
 
-    clearMessage() {
-        this.messageElement.innerText = ""
-    }
+	clearMessage() {
+		this.messageElement.innerText = "";
+	}
 }

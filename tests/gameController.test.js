@@ -3,6 +3,7 @@ import jest from "jest-mock";
 import { GameController, AttackResult } from "../src/game/GameController.js";
 import { GameBoard } from "../src/game/GameBoard.js";
 import { BoardRenderer } from "../src/ui/BoardRenderer.js";
+import { UIManager } from "../src/ui/UIManager.js";
 
 describe("GameController", () => {
 	let gameController;
@@ -10,10 +11,14 @@ describe("GameController", () => {
 	let computerBoard;
 	let humanRenderer;
 	let computerRenderer;
+	let messageContainer;
+	let uiManager;
 
 	beforeEach(() => {
 		humanBoard = new GameBoard();
 		computerBoard = new GameBoard();
+		messageContainer = document.createElement("div");
+		uiManager = new UIManager(messageContainer);
 		humanRenderer = new BoardRenderer(
 			humanBoard,
 			document.createElement("div")
@@ -26,7 +31,8 @@ describe("GameController", () => {
 			humanBoard,
 			computerBoard,
 			humanRenderer,
-			computerRenderer
+			computerRenderer,
+			uiManager
 		);
 	});
 
@@ -136,5 +142,23 @@ describe("GameController", () => {
 		expect(winSpy).toHaveBeenCalled();
 
 		expect(gameController.checkForWin()).toBe(false);
+	});
+
+	it("should display invalid attack message", () => {
+		gameController.initializeGame();
+
+		gameController.handleTurn(0, 0);
+		gameController.handleTurn(0, 0);
+
+		expect(messageContainer.innerText).toBe("Invalid attack: Cell already hit");
+	});
+
+	it("Should display winner when all ships sunk", () => {
+		gameController.initializeGame();
+		gameController.handleTurn(0, 0);
+		gameController.handleTurn(0, 1);
+		gameController.handleTurn(0, 2);
+
+		expect(messageContainer.innerText).toBe("You win!");
 	});
 });
