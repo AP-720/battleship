@@ -13,26 +13,7 @@ body {
 	font-weight: 800;
 	color: #2b4162;
 	padding-top: 2rem;
-}
-
-.name-input {
-	/* border: 1px red solid; */
-	display: flex;
-	gap: 0.5em;
-	padding-top: 1em;
-}
-
-input {
-	border-radius: 3px;
-	border: 1px solid #7aa7c7;
-	font-size: 1rem;
-	padding: 0.2em 0.3em;
-	outline: none;
-	color: #39739d;
-}
-
-input:focus {
-	box-shadow: 0 0 0 4px rgba(0, 149, 255, 0.15);
+	padding-bottom: 1rem;
 }
 
 button {
@@ -65,7 +46,7 @@ button:active {
 }
 
 .messages {
-	padding-top: 1em;
+	padding-top: 1rem;
 	color: #2b4162;
 	font-size: 1.5rem;
 }
@@ -73,7 +54,7 @@ button:active {
 .gameboard-container {
 	/* border: 1px red solid; */
 	display: flex;
-	gap: 1em;
+	gap: 5em;
 	padding-top: 1em;
 	align-items: center;
 	justify-content: space-between;
@@ -120,3 +101,4 @@ button:active {
 .marker.miss {
 	background-color: oklch(1 0 0);
 }
+
