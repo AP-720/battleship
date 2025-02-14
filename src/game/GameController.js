@@ -38,6 +38,8 @@ export class GameController {
 		// Render both boards
 		this.humanRenderer.render();
 		this.computerRenderer.render();
+
+		this.uiManager.setMessage("Place ships to start game.")
 	}
 
 	// Handle a human player's attack on the computer's board

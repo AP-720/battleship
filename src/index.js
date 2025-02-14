@@ -12,6 +12,16 @@ const humanBoardElement = document.querySelector("[data-players-board]");
 const computersBoardElement = document.querySelector("[data-computers-board]");
 const gameMessages = document.querySelector("[data-messages]");
 
+// EventListeners
+
+computersBoardElement.addEventListener("click", (event) => {
+	const cell = event.target;
+	const x = parseInt(cell.getAttribute("data-x"));
+	const y = parseInt(cell.getAttribute("data-y"));
+
+	gameController.handleTurn(x, y);
+});
+
 // Initialize Game Components
 
 const humanBoard = new GameBoard();
@@ -34,7 +44,7 @@ const gameController = new GameController(
 );
 
 gameController.initializeGame();
-gameController.handleTurn(0, 0);
-// gameController.handleTurn(0,0)
-gameController.handleTurn(0, 1);
-gameController.handleTurn(0, 2);
+// gameController.handleTurn(0, 0);
+// // gameController.handleTurn(0,0)
+// gameController.handleTurn(0, 1);
+// gameController.handleTurn(0, 2);

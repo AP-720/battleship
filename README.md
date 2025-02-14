@@ -2,16 +2,13 @@
 
 Project practicing TDD to make a battleship game.
 
-#ToDo
+# ToDo
 
-- Add setTimeout() for computer move generation
-- Stop computer ships from being shown. 
-- Maybe needs isGameRunning property 
+- Stop computer ships from being shown. Do this once the random ship placement has been sorted. 
+- Maybe needs isGameRunning property?
+- Add eventListener for players attack. 
+- Random ship placement. 
 
-##UIManager
 
-- Messages
-    - Enter Name
-    - Which players turn it is 
-    - If attack is a hit or a miss
-    - Who is the winner 
+- remove the player name property as no longer want to have that functionality 
+- remove the missedAttacks array as not using it. 
