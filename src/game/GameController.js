@@ -1,6 +1,7 @@
 // GameController.js
 
 import { Ship } from "./Ship.js";
+import { GameBoard, DIRECTIONS } from "./GameBoard.js";
 
 // Define constants for attack results to avoid magic strings
 export const AttackResult = {
@@ -30,16 +31,16 @@ export class GameController {
 	// Initialize the game by placing ships and rendering the boards
 	initializeGame() {
 		// Place a ship on the human's board
-		this.humanBoard.placeShip(new Ship(3), 0, 0, "horizontal");
+		this.placeShipRandomly(new Ship(4), this.humanBoard);
 
 		// Place a ship on the computer's board
-		this.computerBoard.placeShip(new Ship(3), 0, 0, "horizontal");
+		this.placeShipRandomly(new Ship(4), this.computerBoard);
 
 		// Render both boards
 		this.humanRenderer.render();
 		this.computerRenderer.render();
 
-		this.uiManager.setMessage("Place ships to start game.")
+		this.uiManager.setMessage("Place ships to start game.");
 	}
 
 	// Handle a human player's attack on the computer's board
@@ -120,5 +121,25 @@ export class GameController {
 			this.uiManager.setMessage("Computer wins! You lose.");
 			return;
 		}
+	}
+
+	placeShipRandomly(ship, gameBoard) {
+		let x, y, orientation;
+
+		// Use a do-while loop to repeatedly generate random coordinates and orientation
+		do {
+			x = Math.floor(Math.random() * 10);
+			y = Math.floor(Math.random() * 10);
+			orientation =
+				Math.random() < 0.5 ? DIRECTIONS.HORIZONTAL : DIRECTIONS.VERTICAL;
+
+			// Continue looping if the generated coordinates and orientation are invalid
+		} while (
+			gameBoard.isOutOfBounds(x, y, ship.length, orientation) ||
+			gameBoard.hasOverlap(x, y, ship.length, orientation)
+		);
+
+		// Once valid coordinates and orientation are found, place the ship on the game board.
+		gameBoard.placeShip(ship, x, y, orientation);
 	}
 }

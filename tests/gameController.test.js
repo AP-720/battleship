@@ -4,6 +4,7 @@ import { GameController, AttackResult } from "../src/game/GameController.js";
 import { GameBoard } from "../src/game/GameBoard.js";
 import { BoardRenderer } from "../src/ui/BoardRenderer.js";
 import { UIManager } from "../src/ui/UIManager.js";
+import { Ship } from "../src/game/Ship.js";
 
 describe("GameController", () => {
 	let gameController;
@@ -101,7 +102,7 @@ describe("GameController", () => {
 	});
 
 	it("Reports a win when all ships are sunk", () => {
-		gameController.initializeGame();
+		computerBoard.placeShip(new Ship(3), 0, 0, "horizontal");
 		gameController.handleHumanAttack(0, 0);
 		gameController.handleHumanAttack(0, 1);
 		gameController.handleHumanAttack(0, 2);
@@ -118,7 +119,7 @@ describe("GameController", () => {
 	});
 
 	it("handleTurn stops game when player wins", () => {
-		gameController.initializeGame();
+		computerBoard.placeShip(new Ship(3), 0, 0, "horizontal");
 
 		const spy = jest.spyOn(gameController, "handleTurn");
 
@@ -154,11 +155,45 @@ describe("GameController", () => {
 	});
 
 	it("Should display winner when all ships sunk", () => {
-		gameController.initializeGame();
+		computerBoard.placeShip(new Ship(3), 0, 0, "horizontal");
 		gameController.handleTurn(0, 0);
 		gameController.handleTurn(0, 1);
 		gameController.handleTurn(0, 2);
 
 		expect(messageContainer.innerText).toBe("You win!");
+	});
+
+	it("Should place single ship randomly", () => {
+		const ship = new Ship(3);
+		gameController.placeShipRandomly(ship, humanBoard);
+
+		// Check if the ship is placed on the board
+		const hasShip = humanBoard.grid.some((row) =>
+			row.some((cell) => cell.ship !== null)
+		);
+		expect(hasShip).toBe(true);
+	});
+
+	it("Should place multiple ships randomly", () => {
+		const ship = new Ship(2);
+		const ship1 = new Ship(3);
+		const ship2 = new Ship(4);
+
+		// Place all ships randomly
+		gameController.placeShipRandomly(ship, humanBoard);
+		gameController.placeShipRandomly(ship1, humanBoard);
+		gameController.placeShipRandomly(ship2, humanBoard);
+
+		// Check if all ships are placed on the board
+		const hasShips = humanBoard.grid.some((row) =>
+			row.some((cell) => cell.ship !== null)
+		);
+		expect(hasShips).toBe(true);
+
+		// Verify the total number of cells occupied by ships matches the sum of all ship lengths
+		const allShipCells = humanBoard.grid
+			.flat()
+			.filter((cell) => cell.ship !== null);
+		expect(allShipCells.length).toBe(ship.length + ship1.length + ship2.length);
 	});
 });
