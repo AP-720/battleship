@@ -196,4 +196,34 @@ describe("GameController", () => {
 			.filter((cell) => cell.ship !== null);
 		expect(allShipCells.length).toBe(ship.length + ship1.length + ship2.length);
 	});
+
+	it("Should place all 5 ships on board", () => {
+		gameController.placeAllShips(humanBoard);
+
+		const placedShips = new Set();
+
+		humanBoard.grid.forEach((row) =>
+			row.forEach((cell) => {
+				if (cell.ship) placedShips.add(cell.ship);
+			})
+		);
+
+		expect(placedShips.size).toBe(5);
+	});
+
+	it("should reset and place ships", () => {
+		gameController.initializeGame();
+
+		const initialGameBoard = GameController.humanBoard;
+
+		const placeAllShipsSpy = jest.spyOn(gameController, "placeAllShips");
+
+		const renderSpy = jest.spyOn(humanRenderer, "render");
+
+		gameController.resetAndPlaceShips();
+
+		expect(gameController.humanBoard).not.toBe(initialGameBoard);
+		expect(placeAllShipsSpy).toHaveBeenCalled();
+		expect(renderSpy).toHaveBeenCalled();
+	});
 });

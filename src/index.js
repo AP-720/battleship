@@ -11,6 +11,7 @@ import { UIManager } from "./ui/UIManager.js";
 const humanBoardElement = document.querySelector("[data-players-board]");
 const computersBoardElement = document.querySelector("[data-computers-board]");
 const gameMessages = document.querySelector("[data-messages]");
+const placeShipsButton = document.querySelector("[data-place-ships-button]");
 
 // EventListeners
 
@@ -20,6 +21,10 @@ computersBoardElement.addEventListener("click", (event) => {
 	const y = parseInt(cell.getAttribute("data-y"));
 
 	gameController.handleTurn(x, y);
+});
+
+placeShipsButton.addEventListener("click", () => {
+	gameController.resetAndPlaceShips();
 });
 
 // Initialize Game Components
@@ -44,7 +49,4 @@ const gameController = new GameController(
 );
 
 gameController.initializeGame();
-// gameController.handleTurn(0, 0);
-// // gameController.handleTurn(0,0)
-// gameController.handleTurn(0, 1);
-// gameController.handleTurn(0, 2);
+

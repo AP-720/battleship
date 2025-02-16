@@ -26,21 +26,29 @@ export class GameController {
 
 		// Set the initial turn to the human player
 		this.isHumanTurn = true;
+		// Define the ships for the game.
+		this.ships = [
+			new Ship(2),
+			new Ship(3),
+			new Ship(3),
+			new Ship(4),
+			new Ship(5),
+		];
 	}
 
 	// Initialize the game by placing ships and rendering the boards
 	initializeGame() {
 		// Place a ship on the human's board
-		this.placeShipRandomly(new Ship(4), this.humanBoard);
+		this.placeAllShips(this.humanBoard);
 
 		// Place a ship on the computer's board
-		this.placeShipRandomly(new Ship(4), this.computerBoard);
+		this.placeAllShips(this.computerBoard);
 
 		// Render both boards
 		this.humanRenderer.render();
 		this.computerRenderer.render();
 
-		this.uiManager.setMessage("Place ships to start game.");
+		this.uiManager.setMessage("Attack to begin game or try new ship placement");
 	}
 
 	// Handle a human player's attack on the computer's board
@@ -141,5 +149,28 @@ export class GameController {
 
 		// Once valid coordinates and orientation are found, place the ship on the game board.
 		gameBoard.placeShip(ship, x, y, orientation);
+	}
+
+	// Place all ships randomly on the specified game board
+	placeAllShips(gameBoard) {
+		// Iterate over the ships array and place each ship randomly
+		this.ships.forEach((ship) => {
+			this.placeShipRandomly(ship, gameBoard);
+		});
+	}
+
+	// Reset the human board and place all ships randomly again
+	resetAndPlaceShips() {
+		// Create a new human game board
+		this.humanBoard = new GameBoard();
+
+		// Update the human renderer's board reference to the new board
+		this.humanRenderer.board = this.humanBoard;
+
+		// Place all ships randomly on the new human board
+		this.placeAllShips(this.humanBoard);
+
+		// Re-render the human board to reflect the new ship placements
+		this.humanRenderer.render();
 	}
 }
