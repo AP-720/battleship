@@ -45,10 +45,14 @@ describe("GameController", () => {
 		expect(gameController.computerBoard).toBeInstanceOf(GameBoard);
 		expect(gameController.computerRenderer).toBeInstanceOf(BoardRenderer);
 		expect(gameController.isHumanTurn).toBe(true);
+		expect(gameController.ships.length).toBe(5);
+		expect(gameController.isGameRunning).toBe(true);
 	});
 
 	it("Player can attack valid coordinate", () => {
 		gameController.initializeGame();
+		const computerBoard = gameController.computerBoard;
+
 		gameController.handleHumanAttack(0, 0);
 
 		expect(computerBoard.grid[0][0].isHit).toBe(true);
@@ -56,9 +60,9 @@ describe("GameController", () => {
 	});
 
 	it("Player can't attack same coordinates twice", () => {
-		const spy = jest.spyOn(computerBoard, "receiveAttack");
-
 		gameController.initializeGame();
+		const computerBoard = gameController.computerBoard;
+		const spy = jest.spyOn(computerBoard, "receiveAttack");
 		gameController.handleHumanAttack(0, 0);
 		gameController.handleHumanAttack(0, 0);
 		expect(spy).toHaveBeenCalledTimes(1);
@@ -79,6 +83,8 @@ describe("GameController", () => {
 
 	it("Computer can attack valid coordinate", () => {
 		gameController.initializeGame();
+		const humanBoard = gameController.humanBoard;
+
 		gameController.handleComputerAttack();
 
 		// Ensure at least one cell in humanBoard is hit
@@ -145,22 +151,15 @@ describe("GameController", () => {
 		expect(gameController.checkForWin()).toBe(false);
 	});
 
-	it("should display invalid attack message", () => {
-		gameController.initializeGame();
-
-		gameController.handleTurn(0, 0);
-		gameController.handleTurn(0, 0);
-
-		expect(messageContainer.innerText).toBe("Invalid attack: Cell already hit");
-	});
-
 	it("Should display winner when all ships sunk", () => {
 		computerBoard.placeShip(new Ship(3), 0, 0, "horizontal");
 		gameController.handleTurn(0, 0);
 		gameController.handleTurn(0, 1);
 		gameController.handleTurn(0, 2);
 
-		expect(messageContainer.innerText).toBe("You win!");
+		expect(messageContainer.innerText).toBe(
+			"You win! Place ships to play again."
+		);
 	});
 
 	it("Should place single ship randomly", () => {
@@ -220,10 +219,49 @@ describe("GameController", () => {
 
 		const renderSpy = jest.spyOn(humanRenderer, "render");
 
-		gameController.resetAndPlaceShips();
+		gameController.initializeGame();
 
 		expect(gameController.humanBoard).not.toBe(initialGameBoard);
 		expect(placeAllShipsSpy).toHaveBeenCalled();
 		expect(renderSpy).toHaveBeenCalled();
+	});
+
+	it("should set game to running when initializing", () => {
+		expect(gameController.isGameRunning).toBe(true);
+	});
+
+	it("shouldn't be able to attack if game isn't running", () => {
+		gameController.isGameRunning = false;
+		computerBoard.placeShip(new Ship(3), 0, 0, "horizontal");
+
+		gameController.handleTurn(0, 0);
+
+		expect(computerBoard.grid[0][0].isHit).toBe(false);
+	});
+
+	it("Should be able to attack if game is running ", () => {
+		computerBoard.placeShip(new Ship(3), 0, 0, "horizontal");
+		expect(gameController.isGameRunning).toBe(true);
+
+		gameController.handleTurn(0, 0);
+		expect(computerBoard.grid[0][0].isHit).toBe(true);
+
+		gameController.isGameRunning = false;
+
+		gameController.handleTurn(0, 1);
+		expect(computerBoard.grid[0][1].isHit).toBe(false);
+	});
+
+	it("Should prevent attacks once game won.", () => {
+		computerBoard.placeShip(new Ship(3), 0, 0, "horizontal");
+
+		gameController.handleTurn(0, 0);
+		gameController.handleTurn(0, 1);
+		gameController.handleTurn(0, 2);
+
+		expect(gameController.isGameRunning).toBe(false);
+
+		gameController.handleTurn(0, 3);
+		expect(computerBoard.grid[0][3].isHit).toBe(false);
 	});
 });

@@ -16,7 +16,8 @@ const placeShipsButton = document.querySelector("[data-place-ships-button]");
 // EventListeners
 
 computersBoardElement.addEventListener("click", (event) => {
-	const cell = event.target;
+	// Updated to use closest which those attributes as once a cell was hit and a marker was inserted it meant the coordinates weren't being passed correctly. 
+	const cell = event.target.closest("[data-x][data-y]");
 	const x = parseInt(cell.getAttribute("data-x"));
 	const y = parseInt(cell.getAttribute("data-y"));
 
@@ -24,7 +25,7 @@ computersBoardElement.addEventListener("click", (event) => {
 });
 
 placeShipsButton.addEventListener("click", () => {
-	gameController.resetAndPlaceShips();
+	gameController.initializeGame();
 });
 
 // Initialize Game Components
@@ -49,4 +50,3 @@ const gameController = new GameController(
 );
 
 gameController.initializeGame();
-

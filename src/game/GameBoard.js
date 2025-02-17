@@ -87,7 +87,7 @@ export class GameBoard {
 			this.missedAttacks.push({ x, y });
 		}
 	}
-
+	// Could be refactored to use ships array. 
 	allShipsSunk() {
 		// Create a Set to track unique ships that have already been checked
 		const checkedShips = new Set();
