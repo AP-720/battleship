@@ -11,9 +11,6 @@ export class GameBoard {
 		this.grid = Array.from({ length: 10 }, () =>
 			Array.from({ length: 10 }, () => ({ ship: null, isHit: false }))
 		);
-
-		// Initialize an array to track coordinates of missed attacks
-		this.missedAttacks = [];
 	}
 
 	placeShip(ship, x, y, orientation) {
@@ -28,25 +25,20 @@ export class GameBoard {
 		}
 
 		// Place the ship on the grid based on the specified orientation
-		if (orientation === DIRECTIONS.HORIZONTAL) {
-			for (let i = 0; i < ship.length; i++) {
-				this.grid[x][y + i].ship = ship; // Place ship horizontally
-			}
-		} else if (orientation === DIRECTIONS.VERTICAL) {
-			for (let i = 0; i < ship.length; i++) {
-				this.grid[x + i][y].ship = ship; // Place ship vertically
-			}
+		for (let i = 0; i < ship.length; i++) {
+			const cellX = orientation === DIRECTIONS.HORIZONTAL ? x : x + i;
+			const cellY = orientation === DIRECTIONS.HORIZONTAL ? y + i : y;
+			this.grid[cellX][cellY].ship = ship;
 		}
 	}
 
 	// Helper method to check if a ship placement is out of bounds
 	isOutOfBounds(x, y, shipLength, orientation) {
-		// Check if the ship extends beyond the grid horizontally
-		if (orientation === DIRECTIONS.HORIZONTAL && y + shipLength > 10) {
-			return true;
-		}
-		// Check if the ship extends beyond the grid vertically
-		if (orientation === DIRECTIONS.VERTICAL && x + shipLength > 10) {
+		// Check if the ship extends beyond the grid horizontally or vertically
+		if (
+			(orientation === DIRECTIONS.HORIZONTAL && y + shipLength > 10) ||
+			(orientation === DIRECTIONS.VERTICAL && x + shipLength > 10)
+		) {
 			return true;
 		}
 		return false; // Ship placement is within bounds
@@ -72,18 +64,13 @@ export class GameBoard {
 		const cell = this.grid[x][y]; // Get the target cell
 
 		// If the cell has already been attacked, ignore the attack
-		if (cell.isHit) {
-			return;
-		}
+		if (cell.isHit) return;
 
 		cell.isHit = true; // Mark the cell as hit
 
 		// If the cell contains a ship, register a hit on the ship
 		if (cell.ship) {
 			cell.ship.hit();
-		} else {
-			// If the cell does not contain a ship, record the miss
-			this.missedAttacks.push({ x, y });
 		}
 	}
 	// Could be refactored to use ships array.

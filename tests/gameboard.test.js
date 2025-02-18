@@ -71,34 +71,6 @@ describe("GameBoard", () => {
 		expect(gameBoard.grid[2][2].isHit).toBe(true);
 	});
 
-	it("Records misses in missedAttacks array", () => {
-		gameBoard.receiveAttack(2, 2);
-
-		expect(gameBoard.missedAttacks).toContainEqual({ x: 2, y: 2 });
-	});
-
-	it("Hits are not recorded in missedAttacks", () => {
-		gameBoard.placeShip(ship, 2, 3, "horizontal");
-		gameBoard.receiveAttack(2, 3);
-
-		expect(gameBoard.missedAttacks).not.toContainEqual({ x: 2, y: 3 });
-	});
-
-	it("Records multiple attacks in missedAttacks", () => {
-		gameBoard.receiveAttack(2, 2);
-		gameBoard.receiveAttack(2, 3);
-
-		expect(gameBoard.missedAttacks).toContainEqual({ x: 2, y: 2 });
-		expect(gameBoard.missedAttacks).toContainEqual({ x: 2, y: 3 });
-	});
-
-	it("Ignores attacks on already-hit cells", () => {
-		gameBoard.receiveAttack(2, 2);
-		gameBoard.receiveAttack(2, 2);
-
-		expect(gameBoard.missedAttacks.length).toBe(1);
-	});
-
 	it("Reports all ships sunk when all are destroyed", () => {
 		gameBoard.placeShip(ship, 2, 3, "horizontal");
 		gameBoard.receiveAttack(2, 3);
