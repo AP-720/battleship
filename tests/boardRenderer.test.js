@@ -1,32 +1,43 @@
-import { BoardRenderer } from "../src/ui/BoardRenderer.js";
+import { BoardRenderer, BOARDTYPE } from "../src/ui/BoardRenderer.js";
 import { GameBoard } from "../src/game/GameBoard.js";
 import { Ship } from "../src/game/Ship.js";
 
 describe("BoardRenderer", () => {
 	let gameBoard;
 	let playersBoardContainer;
-	let boardRenderer;
+	let humanBoardRenderer;
+	let computerBoardRenderer
 
 	beforeEach(() => {
 		gameBoard = new GameBoard();
 		playersBoardContainer = document.createElement("div");
-		boardRenderer = new BoardRenderer(gameBoard, playersBoardContainer);
+		humanBoardRenderer = new BoardRenderer(
+			gameBoard,
+			playersBoardContainer,
+			BOARDTYPE.HUMAN
+		);
+		computerBoardRenderer = new BoardRenderer(
+			gameBoard,
+			playersBoardContainer,
+			BOARDTYPE.COMPUTER
+		);
 	});
 
 	it("Initialize BoardRenderer with correct properties.", () => {
-		expect(boardRenderer.board).toBe(gameBoard);
-		expect(boardRenderer.container).toBe(playersBoardContainer);
+		expect(humanBoardRenderer.board).toBe(gameBoard);
+		expect(humanBoardRenderer.container).toBe(playersBoardContainer);
+		expect(humanBoardRenderer.boardType).toBe(BOARDTYPE.HUMAN);
 	});
 
 	it("Should render the correct amount of cells in a board.", () => {
-		boardRenderer.render();
+		humanBoardRenderer.render();
 		expect(playersBoardContainer.children.length).toBe(100);
 	});
 
-	it("Should render ships on the board", () => {
+	it("Should render ships on the human board", () => {
 		const ship = new Ship(3);
 		gameBoard.placeShip(ship, 0, 0, "horizontal");
-		boardRenderer.render();
+		humanBoardRenderer.render();
 
 		const cells = playersBoardContainer.querySelectorAll(".cell");
 		expect(cells[0].classList.contains("ship")).toBe(true);
@@ -34,11 +45,22 @@ describe("BoardRenderer", () => {
 		expect(cells[2].classList.contains("ship")).toBe(true);
 	});
 
+	it("Should not render ships on the computer board", () => {
+		const ship = new Ship(3);
+		gameBoard.placeShip(ship, 0, 0, "horizontal");
+		computerBoardRenderer.render();
+
+		const cells = playersBoardContainer.querySelectorAll(".cell");
+		expect(cells[0].classList.contains("ship")).toBe(false);
+		expect(cells[1].classList.contains("ship")).toBe(false);
+		expect(cells[2].classList.contains("ship")).toBe(false);
+	});
+
 	it("Should render hits on ships", () => {
 		const ship = new Ship(3);
 		gameBoard.placeShip(ship, 0, 0, "horizontal");
 		gameBoard.receiveAttack(0, 0);
-		boardRenderer.render();
+		humanBoardRenderer.render();
 
 		const cells = playersBoardContainer.querySelectorAll(".cell");
 		expect(cells[0].classList.contains("ship")).toBe(true);
@@ -47,10 +69,10 @@ describe("BoardRenderer", () => {
 		expect(marker).not.toBeNull();
 		expect(marker.classList.contains("hit")).toBe(true);
 	});
-	
+
 	it("Should render miss on the board", () => {
 		gameBoard.receiveAttack(0, 0);
-		boardRenderer.render();
+		humanBoardRenderer.render();
 
 		const cells = playersBoardContainer.querySelectorAll(".cell");
 
@@ -60,12 +82,12 @@ describe("BoardRenderer", () => {
 	});
 
 	it("Should render cells with correct coordinates", () => {
-		boardRenderer.render();
-	  
+		humanBoardRenderer.render();
+
 		const cells = playersBoardContainer.querySelectorAll(".cell");
 		expect(cells[0].getAttribute("data-x")).toBe("0");
 		expect(cells[0].getAttribute("data-y")).toBe("0");
 		expect(cells[11].getAttribute("data-x")).toBe("1"); // (1 * 10) + 1 = 11
 		expect(cells[11].getAttribute("data-y")).toBe("1");
-	  });
+	});
 });

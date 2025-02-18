@@ -52,15 +52,6 @@ export class GameController {
 		this.humanRenderer.board = this.humanBoard;
 		this.computerRenderer.board = this.computerBoard;
 
-		// Reset the ships array with new Ship instances
-		// this.ships = [
-		// 	new Ship(2),
-		// 	new Ship(3),
-		// 	new Ship(3),
-		// 	new Ship(4),
-		// 	new Ship(5),
-		// ];
-
 		// Place all ships on the human's board
 		this.placeAllShips(this.humanBoard);
 
@@ -73,7 +64,7 @@ export class GameController {
 
 		// Update UI message
 		this.uiManager.setMessage(
-			"Attack to begin game or generate new ship placement"
+			"Attack to begin game or generate new ship placement."
 		);
 	}
 
@@ -190,6 +181,7 @@ export class GameController {
 
 	// Place all ships randomly on the specified game board
 	placeAllShips(gameBoard) {
+		// Needed to do this here as, before both boards referenced the same ships. So was causing wrong results.
 		this.ships = [
 			new Ship(2),
 			new Ship(3),

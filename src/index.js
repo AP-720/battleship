@@ -1,8 +1,7 @@
 // index.js
 
 import { GameBoard } from "./game/GameBoard.js";
-import { Ship } from "./game/Ship.js";
-import { BoardRenderer } from "./ui/BoardRenderer.js";
+import { BoardRenderer, BOARDTYPE } from "./ui/BoardRenderer.js";
 import { GameController } from "./game/GameController.js";
 import { UIManager } from "./ui/UIManager.js";
 
@@ -16,7 +15,7 @@ const placeShipsButton = document.querySelector("[data-place-ships-button]");
 // EventListeners
 
 computersBoardElement.addEventListener("click", (event) => {
-	// Updated to use closest which those attributes as once a cell was hit and a marker was inserted it meant the coordinates weren't being passed correctly. 
+	// Updated to use closest which those attributes as once a cell was hit and a marker was inserted it meant the coordinates weren't being passed correctly.
 	const cell = event.target.closest("[data-x][data-y]");
 	const x = parseInt(cell.getAttribute("data-x"));
 	const y = parseInt(cell.getAttribute("data-y"));
@@ -33,10 +32,15 @@ placeShipsButton.addEventListener("click", () => {
 const humanBoard = new GameBoard();
 const computersBoard = new GameBoard();
 
-const humanRenderer = new BoardRenderer(humanBoard, humanBoardElement);
+const humanRenderer = new BoardRenderer(
+	humanBoard,
+	humanBoardElement,
+	BOARDTYPE.HUMAN
+);
 const computerRenderer = new BoardRenderer(
 	computersBoard,
-	computersBoardElement
+	computersBoardElement,
+	BOARDTYPE.COMPUTER
 );
 
 const uiManager = new UIManager(gameMessages);
