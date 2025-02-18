@@ -53,13 +53,13 @@ export class GameController {
 		this.computerRenderer.board = this.computerBoard;
 
 		// Reset the ships array with new Ship instances
-		this.ships = [
-			new Ship(2),
-			new Ship(3),
-			new Ship(3),
-			new Ship(4),
-			new Ship(5),
-		];
+		// this.ships = [
+		// 	new Ship(2),
+		// 	new Ship(3),
+		// 	new Ship(3),
+		// 	new Ship(4),
+		// 	new Ship(5),
+		// ];
 
 		// Place all ships on the human's board
 		this.placeAllShips(this.humanBoard);
@@ -137,11 +137,9 @@ export class GameController {
 			return;
 		}
 
-		console.log("Before:", x, y);
 		if (this.computerBoard.grid[x][y].isHit) {
 			return;
 		}
-		console.log("After:", x, y);
 		// Attempt to handle the human player's attack
 		const attackResult = this.handleHumanAttack(x, y);
 
@@ -192,6 +190,13 @@ export class GameController {
 
 	// Place all ships randomly on the specified game board
 	placeAllShips(gameBoard) {
+		this.ships = [
+			new Ship(2),
+			new Ship(3),
+			new Ship(3),
+			new Ship(4),
+			new Ship(5),
+		];
 		// Iterate over the ships array and place each ship randomly
 		this.ships.forEach((ship) => {
 			this.placeShipRandomly(ship, gameBoard);

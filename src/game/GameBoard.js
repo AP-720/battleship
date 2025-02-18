@@ -87,7 +87,7 @@ export class GameBoard {
 			this.missedAttacks.push({ x, y });
 		}
 	}
-	// Could be refactored to use ships array. 
+	// Could be refactored to use ships array.
 	allShipsSunk() {
 		// Create a Set to track unique ships that have already been checked
 		const checkedShips = new Set();
@@ -98,7 +98,6 @@ export class GameBoard {
 				if (cell.ship && !checkedShips.has(cell.ship)) {
 					// Add the ship to the Set of checked ships to avoid redundant checks
 					checkedShips.add(cell.ship);
-
 					// Check if the ship is NOT sunk using its isSunk() method
 					if (!cell.ship.isSunk()) {
 						// If any ship is not sunk, return false immediately
@@ -107,7 +106,6 @@ export class GameBoard {
 				}
 			}
 		}
-
 		// If all ships have been checked and are sunk, return true
 		return true;
 	}
