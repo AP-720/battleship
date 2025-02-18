@@ -1,4 +1,4 @@
-import { BoardRenderer, BOARDTYPE } from "../src/ui/BoardRenderer.js";
+import { BoardRenderer, BOARD_TYPE } from "../src/ui/BoardRenderer.js";
 import { GameBoard } from "../src/game/GameBoard.js";
 import { Ship } from "../src/game/Ship.js";
 
@@ -14,19 +14,19 @@ describe("BoardRenderer", () => {
 		humanBoardRenderer = new BoardRenderer(
 			gameBoard,
 			playersBoardContainer,
-			BOARDTYPE.HUMAN
+			BOARD_TYPE.HUMAN
 		);
 		computerBoardRenderer = new BoardRenderer(
 			gameBoard,
 			playersBoardContainer,
-			BOARDTYPE.COMPUTER
+			BOARD_TYPE.COMPUTER
 		);
 	});
 
 	it("Initialize BoardRenderer with correct properties.", () => {
 		expect(humanBoardRenderer.board).toBe(gameBoard);
 		expect(humanBoardRenderer.container).toBe(playersBoardContainer);
-		expect(humanBoardRenderer.boardType).toBe(BOARDTYPE.HUMAN);
+		expect(humanBoardRenderer.boardType).toBe(BOARD_TYPE.HUMAN);
 	});
 
 	it("Should render the correct amount of cells in a board.", () => {

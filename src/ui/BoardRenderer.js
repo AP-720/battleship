@@ -1,5 +1,5 @@
 // BoardRender.js
-export const BOARDTYPE = {
+export const BOARD_TYPE = {
 	HUMAN: "human",
 	COMPUTER: "computer",
 };
@@ -9,9 +9,8 @@ export class BoardRenderer {
 	constructor(board, container, boardType) {
 		this.board = board; // The game board to render (instance of GameBoard).
 		this.container = container; // The DOM element where the board will be rendered.
-    // Type of board being rendered to prevent ships being rendered on computer board.
-		this.boardType = boardType; 
-    
+		// Type of board being rendered to prevent ships being rendered on computer board.
+		this.boardType = boardType;
 	}
 
 	// Renders the entire game board in the container.
@@ -23,10 +22,8 @@ export class BoardRenderer {
 		for (let x = 0; x < this.board.grid.length; x++) {
 			for (let y = 0; y < this.board.grid[x].length; y++) {
 				// Create a DOM element for the current cell.
-				const cell = this.createCell(x, y);
-
 				// Append the cell to the container.
-				this.container.appendChild(cell);
+				this.container.appendChild(this.createCell(x, y));
 			}
 		}
 	}
@@ -45,17 +42,18 @@ export class BoardRenderer {
 		const gridCell = this.board.grid[x][y];
 
 		// If the cell contains a ship, add the "ship" class.
-		if (gridCell.ship && this.boardType === BOARDTYPE.HUMAN) {
+		if (gridCell.ship && this.boardType === BOARD_TYPE.HUMAN) {
 			cell.classList.add("ship");
 		}
 
 		// If the cell has been hit, add a hit or miss marker.
 		if (gridCell.isHit) {
-			const markerType = gridCell.ship ? "hit" : "miss"; // Determine marker type.
-			const marker = this.createMarker(markerType); // Create the marker.
-			cell.appendChild(marker); // Append the marker to the cell.
+			// Determine marker type.
+			const markerType = gridCell.ship ? "hit" : "miss";
+			// Create the marker.
+			// Append the marker to the cell.
+			cell.appendChild(this.createMarker(markerType));
 		}
-
 		return cell; // Return the fully constructed html cell element.
 	}
 
@@ -63,8 +61,9 @@ export class BoardRenderer {
 	createMarker(type) {
 		// Create a div element to represent the marker.
 		const marker = document.createElement("div");
-		marker.classList.add("marker"); // Add the "marker" class for styling.
-		marker.classList.add(type); // Add the type-specific class (hit or miss).
+		// Add the "marker" class for styling.
+		// Add the type-specific class (hit or miss).
+		marker.classList.add("marker", type);
 
 		return marker; // Return the fully constructed html marker element.
 	}

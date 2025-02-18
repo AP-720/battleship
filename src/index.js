@@ -1,7 +1,7 @@
 // index.js
 
 import { GameBoard } from "./game/GameBoard.js";
-import { BoardRenderer, BOARDTYPE } from "./ui/BoardRenderer.js";
+import { BoardRenderer, BOARD_TYPE } from "./ui/BoardRenderer.js";
 import { GameController } from "./game/GameController.js";
 import { UIManager } from "./ui/UIManager.js";
 
@@ -35,12 +35,12 @@ const computersBoard = new GameBoard();
 const humanRenderer = new BoardRenderer(
 	humanBoard,
 	humanBoardElement,
-	BOARDTYPE.HUMAN
+	BOARD_TYPE.HUMAN
 );
 const computerRenderer = new BoardRenderer(
 	computersBoard,
 	computersBoardElement,
-	BOARDTYPE.COMPUTER
+	BOARD_TYPE.COMPUTER
 );
 
 const uiManager = new UIManager(gameMessages);
