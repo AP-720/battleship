@@ -1,5 +1,3 @@
-// GameController.js
-
 import { Ship } from "./Ship.js";
 import { GameBoard, DIRECTIONS } from "./GameBoard.js";
 
@@ -23,18 +21,9 @@ export class GameController {
 		this.humanRenderer = humanRenderer;
 		this.computerRenderer = computerRenderer;
 		this.uiManager = uiManager;
-
 		// Set the initial turn to the human player
 		this.isHumanTurn = true;
-		// Define the ships for the game.
-		this.ships = [
-			new Ship(2),
-			new Ship(3),
-			new Ship(3),
-			new Ship(4),
-			new Ship(5),
-		];
-
+		//  Keep track of game state
 		this.isGameRunning = true;
 	}
 
@@ -124,13 +113,11 @@ export class GameController {
 	// Handle a full turn (human attack followed by computer attack)
 	handleTurn(x, y) {
 		// Checks game is running to stop attacks after there is a winner.
-		if (!this.isGameRunning) {
+		// Check if cell is already hit. 
+		if (!this.isGameRunning || this.computerBoard.grid[x][y].isHit) {
 			return;
 		}
 
-		if (this.computerBoard.grid[x][y].isHit) {
-			return;
-		}
 		// Attempt to handle the human player's attack
 		const attackResult = this.handleHumanAttack(x, y);
 

@@ -1,4 +1,3 @@
-// GameBoard.js
 // Define constants for ship placement directions
 export const DIRECTIONS = {
 	HORIZONTAL: "horizontal",
