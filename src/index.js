@@ -12,16 +12,18 @@ const computersBoardElement = document.querySelector("[data-computers-board]");
 const gameMessages = document.querySelector("[data-messages]");
 const placeShipsButton = document.querySelector("[data-place-ships-button]");
 
-// EventListeners
-
-computersBoardElement.addEventListener("click", (event) => {
+function handleComputerBoardClick(event) {
 	// Updated to use closest which those attributes as once a cell was hit and a marker was inserted it meant the coordinates weren't being passed correctly.
 	const cell = event.target.closest("[data-x][data-y]");
 	const x = parseInt(cell.getAttribute("data-x"));
 	const y = parseInt(cell.getAttribute("data-y"));
 
 	gameController.handleTurn(x, y);
-});
+}
+
+// EventListeners
+
+computersBoardElement.addEventListener("click", handleComputerBoardClick);
 
 placeShipsButton.addEventListener("click", () => {
 	gameController.initializeGame();
